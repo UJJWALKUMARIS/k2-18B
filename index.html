@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Interactive Explorer: K2-18b</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -13,209 +13,185 @@
     .nav-btn { transition: all 0.3s ease; border-bottom: 2px solid transparent; }
     .nav-btn.active, .nav-btn:hover { color: #C67B62; border-bottom-color: #C67B62; }
     .card { background-color: #F9F6F0; border-left: 4px solid #8E806A; }
-    .chart-container { position: relative; width: 100%; max-width: 600px; margin: auto; height: 320px; }
+    .chart-container { position: relative; width: 100%; max-width: 600px; margin: auto; height: 320px; max-height: 400px; }
     @media (min-width: 768px) { .chart-container { height: 400px; } }
     .content-section { display: none; }
     .content-section.active { display: block; }
-    .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.75); display: flex; justify-content: center; align-items: center; z-index: 100; }
-    .modal-content { background-color: #F9F6F0; padding: 2rem; border-radius: 1rem; max-width: 400px;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); text-align: center; }
+    .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.75); display: flex; justify-content: center; align-items: center; z-index: 100; }
+    .modal-content { background-color: #F9F6F0; padding: 2rem; border-radius: 1rem; max-width: 400px; box-shadow: 0 4px 6px rgba(0,0,0,.1); text-align: center; }
     .prose a { color: #C67B62; text-decoration: underline; }
     .prose a:hover { color: #8E806A; }
   </style>
 </head>
 <body class="antialiased">
-  <div class="container mx-auto px-4 py-8">
-    <header class="text-center mb-12">
-      <h1 class="text-4xl md:text-5xl font-bold text-[#433422] mb-2">An Interactive Journey to K2-18b</h1>
-      <p class="text-lg text-[#65533C]">Exploring a potential 'Hycean' world 120 light-years away.</p>
-    </header>
+<div class="container mx-auto px-4 py-8">
 
-    <main>
-      <section id="key-facts" class="mb-12">
-        <p class="text-center text-[#65533C] max-w-3xl mx-auto mb-8">Discovered in 2015, K2-18b is a super-Earth exoplanet...</p>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-center">
-          <div class="card p-4 rounded-lg shadow-md"><h3 class="font-semibold text-lg">Mass</h3><p class="text-3xl font-bold text-[#C67B62]">8.6x</p><p class="text-sm text-[#8E806A]">that of Earth</p></div>
-          <div class="card p-4 rounded-lg shadow-md"><h3 class="font-semibold text-lg">Radius</h3><p class="text-3xl font-bold text-[#C67B62]">2.6x</p><p class="text-sm text-[#8E806A]">that of Earth</p></div>
-          <div class="card p-4 rounded-lg shadow-md"><h3 class="font-semibold text-lg">Orbital Period</h3><p class="text-3xl font-bold text-[#C67B62]">33</p><p class="text-sm text-[#8E806A]">Earth Days</p></div>
-          <div class="card p-4 rounded-lg shadow-md"><h3 class="font-semibold text-lg">Star Type</h3><p class="text-3xl font-bold text-[#C67B62]">M2.5V</p><p class="text-sm text-[#8E806A]">Cool Dwarf</p></div>
+  <!-- Header -->
+  <header class="text-center mb-12">
+    <h1 class="text-4xl md:text-5xl font-bold text-[#433422] mb-2">An Interactive Journey to K2-18b</h1>
+    <p class="text-lg text-[#65533C]">Exploring a potential 'Hycean' world 120 light-years away.</p>
+  </header>
+
+  <!-- Main -->
+  <main>
+    <!-- Key Facts -->
+    <section id="key-facts" class="mb-12">
+      <p class="text-center text-[#65533C] max-w-3xl mx-auto mb-8">
+        Discovered in 2015, K2-18b is a super-Earth exoplanet orbiting the red dwarf star K2-18, about 120 light-years away in the constellation Leo.  
+        With a mass 8.6 times that of Earth and a radius 2.6 times larger, it falls into the category of "mini-Neptunes."  
+        Its orbital period is just 33 Earth days, and it lies in the star’s habitable zone, where liquid water could exist.  
+        Observations suggest hydrogen-rich atmospheres, with potential biosignature gases like methane and carbon dioxide detected.  
+      </p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-center">
+        <div class="card p-4 rounded-lg shadow-md">
+          <h3 class="font-semibold text-lg">Mass</h3>
+          <p class="text-3xl font-bold text-[#C67B62]">8.6x</p>
+          <p class="text-sm text-[#8E806A]">that of Earth</p>
+        </div>
+        <div class="card p-4 rounded-lg shadow-md">
+          <h3 class="font-semibold text-lg">Radius</h3>
+          <p class="text-3xl font-bold text-[#C67B62]">2.6x</p>
+          <p class="text-sm text-[#8E806A]">that of Earth</p>
+        </div>
+        <div class="card p-4 rounded-lg shadow-md">
+          <h3 class="font-semibold text-lg">Orbital Period</h3>
+          <p class="text-3xl font-bold text-[#C67B62]">33</p>
+          <p class="text-sm text-[#8E806A]">Earth Days</p>
+        </div>
+        <div class="card p-4 rounded-lg shadow-md">
+          <h3 class="font-semibold text-lg">Star Type</h3>
+          <p class="text-3xl font-bold text-[#C67B62]">M2.5V</p>
+          <p class="text-sm text-[#8E806A]">Cool Dwarf</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="flex justify-center border-b border-[#DCD3BF] mb-8">
+      <button class="nav-btn py-4 px-6 font-semibold text-lg active" data-target="overview">Overview</button>
+      <button class="nav-btn py-4 px-6 font-semibold text-lg" data-target="atmosphere">Atmosphere</button>
+      <button class="nav-btn py-4 px-6 font-semibold text-lg" data-target="habitability">Habitability</button>
+      <button class="nav-btn py-4 px-6 font-semibold text-lg" data-target="ai-chat">Ask a Scientist</button>
+    </nav>
+
+    <!-- Sections -->
+    <div id="content-container">
+
+      <!-- Overview -->
+      <section id="overview" class="content-section active">
+        <div class="text-center mb-10">
+          <h2 class="text-3xl font-bold mb-2">Planet Overview & Comparison</h2>
+          <p class="max-w-3xl mx-auto text-[#65533C]">
+            Use the buttons below to compare K2-18b's mass, radius, and density with Earth, Neptune, and Jupiter.
+          </p>
+        </div>
+        <div class="bg-[#F9F6F0] p-6 rounded-lg shadow-inner">
+          <div class="flex justify-center mb-4 space-x-2">
+            <button id="compare-mass-btn" class="bg-[#C67B62] text-white px-4 py-2 rounded-md shadow hover:bg-[#b86e56]">Compare Mass</button>
+            <button id="compare-radius-btn" class="bg-[#8E806A] text-white px-4 py-2 rounded-md shadow hover:bg-[#7c705d]">Compare Radius</button>
+            <button id="compare-density-btn" class="bg-[#5462CF] text-white px-4 py-2 rounded-md shadow hover:bg-[#4653b8]">Compare Density</button>
+          </div>
+          <div class="chart-container"><canvas id="comparisonChart"></canvas></div>
         </div>
       </section>
 
-      <nav class="flex justify-center border-b border-[#DCD3BF] mb-8">
-        <button class="nav-btn py-4 px-6 font-semibold text-lg active" data-target="overview">Overview</button>
-        <button class="nav-btn py-4 px-6 font-semibold text-lg" data-target="atmosphere">Atmosphere</button>
-        <button class="nav-btn py-4 px-6 font-semibold text-lg" data-target="habitability">Habitability</button>
-        <button class="nav-btn py-4 px-6 font-semibold text-lg" data-target="ai-chat">Ask a Scientist</button>
-      </nav>
+      <!-- Atmosphere -->
+      <section id="atmosphere" class="content-section">
+        <h2 class="text-3xl font-bold mb-4">Atmosphere</h2>
+        <p class="max-w-3xl mx-auto text-[#65533C]">
+          Studies using the Hubble Space Telescope and JWST suggest K2-18b has a hydrogen-rich atmosphere.
+          Evidence of methane and carbon dioxide has been reported, making it a strong candidate for further exploration.
+        </p>
+      </section>
 
-      <div id="content-container">
-        <!-- Overview -->
-        <section id="overview" class="content-section active">
-          <div class="text-center mb-10">
-            <h2 class="text-3xl font-bold mb-2">Planet Overview & Comparison</h2>
-            <p class="max-w-3xl mx-auto text-[#65533C]">K2-18b is classified as a 'sub-Neptune'...</p>
-          </div>
-          <div class="bg-[#F9F6F0] p-6 rounded-lg shadow-inner">
-            <div class="flex justify-center mb-4 space-x-2">
-              <button id="compare-mass-btn" class="bg-[#C67B62] text-white px-4 py-2 rounded-md shadow hover:bg-[#b86e56] transition">Compare Mass</button>
-              <button id="compare-radius-btn" class="bg-[#8E806A] text-white px-4 py-2 rounded-md shadow hover:bg-[#7c705d] transition">Compare Radius</button>
-              <button id="compare-density-btn" class="bg-[#5462CF] text-white px-4 py-2 rounded-md shadow hover:bg-[#4653b8] transition">Compare Density</button>
-            </div>
-            <div class="chart-container"><canvas id="comparisonChart"></canvas></div>
-          </div>
-        </section>
+      <!-- Habitability -->
+      <section id="habitability" class="content-section">
+        <h2 class="text-3xl font-bold mb-4">Habitability</h2>
+        <p class="max-w-3xl mx-auto text-[#65533C]">
+          K2-18b orbits in the habitable zone of its star.  
+          Its "Hycean" nature (a possible ocean world with hydrogen-rich atmosphere) makes it one of the most intriguing exoplanets in search for alien life.
+        </p>
+      </section>
 
-        <!-- Atmosphere -->
-        <section id="atmosphere" class="content-section">
-          <div class="text-center mb-10"><h2 class="text-3xl font-bold mb-2">Atmospheric Composition</h2></div>
-          <div class="flex flex-col md:flex-row gap-8 items-center bg-[#F9F6F0] p-6 rounded-lg shadow-inner">
-            <div class="w-full md:w-1/2 chart-container h-80 md:h-96"><canvas id="atmosphereChart"></canvas></div>
-            <div id="molecule-info" class="w-full md:w-1/2 p-4 min-h-[200px]">
-              <h3 id="molecule-title" class="text-2xl font-bold text-[#433422]">Click a molecule</h3>
-              <p id="molecule-desc" class="mt-2 text-[#65533C]">Select a segment...</p>
-            </div>
+      <!-- AI Chat -->
+      <section id="ai-chat" class="content-section">
+        <div class="text-center mb-10">
+          <h2 class="text-3xl font-bold mb-2">Ask a Scientist</h2>
+          <p class="max-w-3xl mx-auto text-[#65533C]">Ask a question about K2-18b and get an AI-powered explanation.</p>
+        </div>
+        <div class="bg-[#F9F6F0] p-6 rounded-lg shadow-inner">
+          <textarea id="ai-chat-input" rows="4" placeholder="e.g., Why is K2-18b considered a Hycean world?" class="w-full p-4 rounded-lg border border-[#DCD3BF] mb-4"></textarea>
+          <button id="ai-chat-submit" class="w-full bg-[#C67B62] text-white py-3 rounded-lg">✨ Ask a Scientist</button>
+          <div id="ai-chat-loading" class="text-center py-4 hidden">
+            <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C67B62] mx-auto"></div>
+            <p>Consulting the data...</p>
           </div>
-        </section>
-
-        <!-- Habitability -->
-        <section id="habitability" class="content-section">
-          <div class="text-center mb-10"><h2 class="text-3xl font-bold mb-2">The Question of Habitability</h2></div>
-          <p class="max-w-3xl mx-auto text-[#65533C]">K2-18b orbits within its star's habitable zone...</p>
-        </section>
-
-        <!-- AI Chat -->
-        <section id="ai-chat" class="content-section">
-          <div class="text-center mb-10">
-            <h2 class="text-3xl font-bold mb-2">Ask a Scientist</h2>
-            <p class="max-w-3xl mx-auto text-[#65533C]">Want to know more? Ask a question below.</p>
+          <div id="ai-chat-response" class="mt-6 p-4 bg-white rounded-lg border hidden">
+            <h3 class="text-xl font-bold mb-2">Response:</h3>
+            <div id="ai-chat-text" class="prose"></div>
           </div>
-          <div class="bg-[#F9F6F0] p-6 rounded-lg shadow-inner">
-            <textarea id="ai-chat-input" rows="4" placeholder="e.g., What are the challenges of observing exoplanet atmospheres?"
-              class="w-full p-4 rounded-lg border border-[#DCD3BF] mb-4 text-[#433422] bg-white"></textarea>
-            <button id="ai-chat-submit" class="w-full bg-[#C67B62] text-white font-semibold py-3 rounded-lg shadow hover:bg-[#b86e56] transition">✨ Ask a Scientist</button>
-            <div id="ai-chat-loading" class="text-center py-4 hidden"><div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C67B62] mx-auto"></div></div>
-            <div id="ai-chat-response" class="mt-6 p-4 bg-white rounded-lg border border-[#DCD3BF] hidden"><h3 class="text-xl font-bold text-[#433422] mb-2">Response:</h3><div id="ai-chat-text" class="prose max-w-none text-[#65533C]"></div></div>
-          </div>
-        </section>
-      </div>
-    </main>
-  </div>
-
-  <!-- Modal -->
-  <div id="message-modal" class="modal hidden">
-    <div class="modal-content">
-      <h4 id="modal-title" class="text-xl font-bold mb-2"></h4>
-      <p id="modal-message" class="text-[#65533C] mb-4"></p>
-      <button id="modal-close" class="bg-[#C67B62] text-white px-4 py-2 rounded-lg hover:bg-[#b86e56]">OK</button>
+        </div>
+      </section>
     </div>
-  </div>
+  </main>
+</div>
 
-  <script>
-    // ================= CONFIG =================
-    const API_KEY = "AIzaSyBKA93ZNtPv1eh-F9kpMwkPGdFT571eoc0"; 
-    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+<!-- Chart + AI Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const planetData = {
+    earth: { mass: 1, radius: 1, color: '#6686B8' },
+    neptune: { mass: 17, radius: 3.88, color: '#5462CF' },
+    jupiter: { mass: 318, radius: 11.2, color: '#D6A46A' },
+    k218b: { mass: 8.6, radius: 2.6, color: '#C67B62' }
+  };
 
-    document.addEventListener('DOMContentLoaded', function () {
-      const planetData = {
-        earth: { mass: 1, radius: 1, color: '#6686B8' },
-        neptune: { mass: 17, radius: 3.88, color: '#5462CF' },
-        jupiter: { mass: 318, radius: 11.2, color: '#D6A46A' },
-        k218b: { mass: 8.6, radius: 2.6, color: '#C67B62' }
-      };
+  let comparisonChart;
+  function createComparisonChart(mode = 'mass') {
+    const ctx = document.getElementById('comparisonChart').getContext('2d');
+    if (comparisonChart) comparisonChart.destroy();
+    const labels = ['Earth','K2-18b','Neptune','Jupiter'];
+    let data;
+    if (mode === 'density') {
+      data = labels.map(p => {
+        const pl = planetData[p.toLowerCase().replace('-', '')];
+        return pl.mass / Math.pow(pl.radius, 3);
+      });
+    } else {
+      data = labels.map(p => planetData[p.toLowerCase().replace('-', '')][mode]);
+    }
+    const colors = labels.map(p => planetData[p.toLowerCase().replace('-', '')].color);
 
-      let comparisonChart;
-
-      function createComparisonChart(mode='mass') {
-        const ctx = document.getElementById('comparisonChart').getContext('2d');
-        if (comparisonChart) comparisonChart.destroy();
-
-        const labels = ['Earth', 'K2-18b', 'Neptune', 'Jupiter'];
-        let data;
-        if (mode === 'density') {
-          data = labels.map(p => {
-            const planet = planetData[p.toLowerCase().replace('-', '')];
-            return planet.mass / Math.pow(planet.radius, 3);
-          });
-        } else {
-          data = labels.map(p => planetData[p.toLowerCase().replace('-', '')][mode]);
+    comparisonChart = new Chart(ctx, {
+      type: 'bar',
+      data: { labels, datasets: [{ label: mode, data, backgroundColor: colors }] },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        scales: { x: { type: 'logarithmic', beginAtZero: true } },
+        plugins: {
+          title: { display: true, text: mode === 'density' ? 'Comparison by Density (Earth=1)' : `Comparison by ${mode}` },
+          tooltip: { callbacks: { label: ctx => `${ctx.parsed.x.toFixed(2)}x Earth's ${mode}` } }
         }
-        const colors = labels.map(p => planetData[p.toLowerCase().replace('-', '')].color);
-
-        comparisonChart = new Chart(ctx, {
-          type: 'bar',
-          data: { labels, datasets: [{ data, backgroundColor: colors }] },
-          options: {
-            indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-            scales: { x: { type: mode==='density' ? 'linear':'logarithmic', beginAtZero: true } },
-            plugins: {
-              title: {
-                display: true,
-                text: mode==='density'
-                  ? "Comparison by Planetary Density (Earth=1)"
-                  : `Comparison by Planetary ${mode}`,
-                color: '#433422'
-              },
-              tooltip: {
-                callbacks: {
-                  label: ctx => {
-                    let v = ctx.parsed.x;
-                    return mode==='density' ? `${v.toFixed(2)}x Earth's density` : `${v.toFixed(2)}x Earth's ${mode}`;
-                  }
-                }
-              }
-            }
-          }
-        });
       }
-
-      createComparisonChart();
-      document.getElementById('compare-mass-btn').addEventListener('click', ()=>createComparisonChart('mass'));
-      document.getElementById('compare-radius-btn').addEventListener('click', ()=>createComparisonChart('radius'));
-      document.getElementById('compare-density-btn').addEventListener('click', ()=>createComparisonChart('density'));
-
-      // Nav buttons
-      document.querySelectorAll('.nav-btn').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-          btn.classList.add('active');
-          document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active'));
-          document.getElementById(btn.dataset.target).classList.add('active');
-        });
-      });
-
-      // Modal
-      const showModal = (title,msg)=>{
-        document.getElementById('modal-title').textContent=title;
-        document.getElementById('modal-message').textContent=msg;
-        document.getElementById('message-modal').classList.remove('hidden');
-      };
-      document.getElementById('modal-close').addEventListener('click', ()=>document.getElementById('message-modal').classList.add('hidden'));
-
-      // AI Chat
-      const chatInput=document.getElementById('ai-chat-input');
-      const chatSubmitBtn=document.getElementById('ai-chat-submit');
-      const chatLoading=document.getElementById('ai-chat-loading');
-      const chatResponseContainer=document.getElementById('ai-chat-response');
-      const chatResponseText=document.getElementById('ai-chat-text');
-
-      chatSubmitBtn.addEventListener('click', async ()=>{
-        const prompt=chatInput.value.trim();
-        if(!prompt){ showModal("Input Required","Please enter a question."); return; }
-        chatLoading.classList.remove('hidden'); chatResponseContainer.classList.add('hidden');
-
-        try{
-          const payload={ contents:[{ parts:[{ text:prompt }] }] };
-          const res=await fetch(API_URL,{ method:"POST", headers:{ "Content-Type":"application/json" }, body:JSON.stringify(payload) });
-          const data=await res.json();
-          const text=data.candidates?.[0]?.content?.parts?.[0]?.text;
-          if(text){ chatResponseText.innerHTML=marked.parse(text); chatResponseContainer.classList.remove('hidden'); }
-          else showModal("No Response","AI could not generate a response.");
-        }catch(err){ showModal("API Error","Failed to connect to Gemini API."); }
-        finally{ chatLoading.classList.add('hidden'); }
-      });
     });
-  </script>
+  }
+
+  createComparisonChart();
+  document.getElementById('compare-mass-btn').addEventListener('click', () => createComparisonChart('mass'));
+  document.getElementById('compare-radius-btn').addEventListener('click', () => createComparisonChart('radius'));
+  document.getElementById('compare-density-btn').addEventListener('click', () => createComparisonChart('density'));
+
+  // Tabs
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.target).classList.add('active');
+    });
+  });
+});
+</script>
 </body>
 </html>
