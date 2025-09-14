@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Explorer: K2-18b</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F0EAD6; /* Warm Neutral Background */
+            color: #433422; /* Dark Brown Text */
+        }
+        .nav-btn {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-btn.active, .nav-btn:hover {
+            color: #C67B62; /* Subtle Accent */
+            border-bottom-color: #C67B62;
+        }
+        .card {
+            background-color: #F9F6F0; /* Lighter Neutral */
+            border-left: 4px solid #8E806A; /* Muted Accent */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        /* Custom modal for messages */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+        .modal-content {
+            background-color: #F9F6F0;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 400px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+        .prose a {
+            color: #C67B62;
+            text-decoration: underline;
+        }
+        .prose a:hover {
+            color: #8E806A;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#433422] mb-2">An Interactive Journey to K2-18b</h1>
+            <p class="text-lg text-[#65533C]">Exploring a potential 'Hycean' world 120 light-years away.</p>
+        </header>
+
+        <main>
+            <section id="key-facts" class="mb-12">
+                <p class="text-center text-[#65533C] max-w-3xl mx-auto mb-8">Discovered in 2015, K2-18b is a super-Earth exoplanet that has become a primary target in the search for habitable worlds beyond our solar system. Recent observations by the James Webb Space Telescope (JWST) have provided an unprecedented look into its atmosphere, revealing tantalizing clues about its nature. This dashboard provides the key stats at a glance.</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-center">
+                    <div class="card p-4 rounded-lg shadow-md">
+                        <h3 class="font-semibold text-lg">Mass</h3>
+                        <p class="text-3xl font-bold text-[#C67B62]">8.6x</p>
+                        <p class="text-sm text-[#8E806A]">that of Earth</p>
+                    </div>
+                    <div class="card p-4 rounded-lg shadow-md">
+                        <h3 class="font-semibold text-lg">Radius</h3>
+                        <p class="text-3xl font-bold text-[#C67B62]">2.6x</p>
+                        <p class="text-sm text-[#8E806A]">that of Earth</p>
+                    </div>
+                    <div class="card p-4 rounded-lg shadow-md">
+                        <h3 class="font-semibold text-lg">Orbital Period</h3>
+                        <p class="text-3xl font-bold text-[#C67B62]">33</p>
+                        <p class="text-sm text-[#8E806A]">Earth Days</p>
+                    </div>
+                    <div class="card p-4 rounded-lg shadow-md">
+                        <h3 class="font-semibold text-lg">Star Type</h3>
+                        <p class="text-3xl font-bold text-[#C67B62]">M2.5V</p>
+                        <p class="text-sm text-[#8E806A]">Cool Dwarf</p>
+                    </div>
+                </div>
+            </section>
+
+            <nav class="flex justify-center border-b border-[#DCD3BF] mb-8">
+                <button class="nav-btn py-4 px-6 font-semibold text-lg active" data-target="overview">Overview</button>
+                <button class="nav-btn py-4 px-6 font-semibold text-lg" data-target="atmosphere">Atmosphere</button>
+                <button class="nav-btn py-4 px-6 font-semibold text-lg" data-target="habitability">Habitability</button>
+                <button class="nav-btn py-4 px-6 font-semibold text-lg" data-target="ai-chat">Ask a Scientist</button>
+            </nav>
+
+            <div id="content-container">
+                <section id="overview" class="content-section active">
+                    <div class="text-center mb-10">
+                         <h2 class="text-3xl font-bold mb-2">Planet Overview & Comparison</h2>
+                         <p class="max-w-3xl mx-auto text-[#65533C]">K2-18b is classified as a 'sub-Neptune,' a type of planet with no direct analog in our solar system. It's significantly larger and more massive than Earth but smaller than ice giants like Neptune. Understanding its scale is crucial. Use the buttons below to compare K2-18b's size and mass to familiar planets, providing a clearer perspective on its place in the cosmos.</p>
+                    </div>
+                    <div class="bg-[#F9F6F0] p-6 rounded-lg shadow-inner">
+                        <div class="flex justify-center mb-4 space-x-2">
+                            <button id="compare-mass-btn" class="bg-[#C67B62] text-white px-4 py-2 rounded-md shadow hover:bg-[#b86e56] transition">Compare Mass</button>
+                            <button id="compare-radius-btn" class="bg-[#8E806A] text-white px-4 py-2 rounded-md shadow hover:bg-[#7c705d] transition">Compare Radius</button>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="comparisonChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="atmosphere" class="content-section">
+                    <div class="text-center mb-10">
+                         <h2 class="text-3xl font-bold mb-2">Atmospheric Composition</h2>
+                         <p class="max-w-3xl mx-auto text-[#65533C]">The atmosphere is the key to understanding K2-18b's potential for habitability. JWST has detected several key carbon-bearing molecules. The presence of methane and CO2, combined with a lack of ammonia, strongly suggests a water-rich environment. Click on the segments of the chart below to learn more about each detected molecule and its significance.</p>
+                    </div>
+                     <div class="flex flex-col md:flex-row gap-8 items-center bg-[#F9F6F0] p-6 rounded-lg shadow-inner">
+                        <div class="w-full md:w-1/2 chart-container h-80 md:h-96">
+                            <canvas id="atmosphereChart"></canvas>
+                        </div>
+                        <div id="molecule-info" class="w-full md:w-1/2 p-4 min-h-[200px]">
+                            <h3 id="molecule-title" class="text-2xl font-bold text-[#433422]">Click a molecule</h3>
+                            <p id="molecule-desc" class="mt-2 text-[#65533C]">Select a segment from the chart to display information about the molecule and its implications for K2-18b.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="habitability" class="content-section">
+                     <div class="text-center mb-10">
+                         <h2 class="text-3xl font-bold mb-2">The Question of Habitability</h2>
+                         <p class="max-w-3xl mx-auto text-[#65533C]">K2-18b orbits within its star's habitable zone, the region where temperatures could allow for liquid water. This, combined with its atmospheric data, makes it a candidate for a 'Hycean' world—a hypothetical planet with a global water ocean under a hydrogen-rich atmosphere. However, its large size presents challenges, and the term 'habitable' remains a topic of active scientific debate.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="bg-[#F9F6F0] p-6 rounded-lg shadow-inner">
+                             <h3 class="text-xl font-bold text-center mb-4">Position in Habitable Zone</h3>
+                             <div class="relative w-full h-48 bg-[#e8e2d4] rounded-lg p-4 flex flex-col justify-center">
+                                <div class="absolute top-1/2 -translate-y-1/2 left-4 text-3xl">☀️</div>
+                                <div class="absolute top-1/2 -translate-y-1/2 left-4 text-sm font-bold text-[#433422] pl-10">K2-18</div>
+                                <div class="h-16 bg-green-500/20 border-y-2 border-dashed border-green-700/50 w-2/5 ml-auto mr-auto">
+                                     <p class="text-center font-semibold text-green-800/80 pt-4">Habitable Zone</p>
+                                </div>
+                                <div class="absolute top-1/2 -translate-y-1/2 left-1/2 ml-4 flex items-center">
+                                    <div class="text-3xl">🌎</div>
+                                    <div class="font-semibold ml-1 text-sm">K2-18b</div>
+                                </div>
+                            </div>
+                            <p class="text-sm mt-4 text-center text-[#65533C]">K2-18b receives a similar amount of radiation from its star as Earth does from the Sun.</p>
+                        </div>
+                        <div class="space-y-4">
+                            <h3 class="text-2xl font-bold text-[#433422]">A 'Hycean' World?</h3>
+                            <p class="text-[#65533C]">The Hycean hypothesis is compelling: a planet-wide ocean could provide a stable environment for life to emerge. The detection of methane (CH₄) and carbon dioxide (CO₂) supports this, as these are expected in such a world. However, the potential detection of Dimethyl Sulfide (DMS) is the most provocative finding.</p>
+                            <p class="text-[#65533C]">On Earth, DMS is overwhelmingly produced by marine life like phytoplankton. Its potential presence on K2-18b is a tantalizing biosignature but requires significant further confirmation, as the signal is currently tentative and non-biological pathways on such an alien world cannot be ruled out. The scientific community remains cautiously optimistic as it awaits more data.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- NEW: AI Chat Section -->
+                <section id="ai-chat" class="content-section">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold mb-2">Ask a Scientist</h2>
+                        <p class="max-w-3xl mx-auto text-[#65533C]">Want to know more? Use the form below to ask a question about K2-18b, its star, or exoplanets in general. A friendly AI will provide a detailed, science-based answer.</p>
+                    </div>
+                    <div class="bg-[#F9F6F0] p-6 rounded-lg shadow-inner">
+                        <textarea id="ai-chat-input" rows="4" placeholder="e.g., What are the challenges of observing exoplanet atmospheres?"
+                            class="w-full p-4 rounded-lg border border-[#DCD3BF] focus:outline-none focus:ring-2 focus:ring-[#C67B62] mb-4 text-[#433422] bg-white"></textarea>
+                        <button id="ai-chat-submit" class="w-full bg-[#C67B62] text-white font-semibold py-3 rounded-lg shadow hover:bg-[#b86e56] transition">✨ Ask a Scientist</button>
+
+                        <div id="ai-chat-loading" class="text-center py-4 hidden">
+                            <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#C67B62] mx-auto"></div>
+                            <p class="mt-2 text-[#8E806A]">Consulting the data...</p>
+                        </div>
+
+                        <div id="ai-chat-response" class="mt-6 p-4 bg-white rounded-lg border border-[#DCD3BF] hidden">
+                            <h3 class="text-xl font-bold text-[#433422] mb-2">Response:</h3>
+                            <div id="ai-chat-text" class="prose max-w-none text-[#65533C]"></div>
+                        </div>
+                    </div>
+                </section>
+                <!-- END NEW SECTION -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for messages -->
+    <div id="message-modal" class="modal hidden">
+        <div class="modal-content">
+            <h4 id="modal-title" class="text-xl font-bold mb-2"></h4>
+            <p id="modal-message" class="text-[#65533C] mb-4"></p>
+            <button id="modal-close" class="bg-[#C67B62] text-white px-4 py-2 rounded-lg hover:bg-[#b86e56]">OK</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const planetData = {
+                earth: { mass: 1, radius: 1, color: '#6686B8' },
+                neptune: { mass: 17, radius: 3.88, color: '#5462CF' },
+                jupiter: { mass: 318, radius: 11.2, color: '#D6A46A' },
+                k218b: { mass: 8.6, radius: 2.6, color: '#C67B62' }
+            };
+
+            const atmosphereData = {
+                'Methane (CH₄)': {
+                    desc: 'A significant carbon-bearing molecule detected by JWST. On a world with a potential ocean, methane could be produced by biological or geological processes. Its presence, along with CO₂, is a key piece of evidence supporting the Hycean world hypothesis.',
+                    color: '#C67B62'
+                },
+                'Carbon Dioxide (CO₂)': {
+                    desc: 'Another key indicator of atmospheric processes. The ratio of CO₂ to methane and the absence of ammonia helps scientists model the planet\'s climate and internal structure, pointing away from a gas giant and towards a world with a distinct surface.',
+                    color: '#8E806A'
+                },
+                'Dimethyl Sulfide (DMS) - Tentative': {
+                    desc: 'This is the most exciting and debated finding. On Earth, DMS is almost exclusively produced by life (specifically marine phytoplankton). While its detection is not yet confirmed to a high statistical significance, it represents a potential biosignature. More observations are needed to confirm its presence and rule out unknown abiotic sources.',
+                    color: '#D1A377'
+                },
+                'Hydrogen-Rich Atmosphere': {
+                    desc: 'The overall atmosphere is dominated by hydrogen, which is expected for a planet of this size. This is a defining characteristic of a potential Hycean world.',
+                    color: '#F9F6F0'
+                }
+            };
+
+            let comparisonChart, atmosphereChart;
+
+            function createComparisonChart(mode = 'mass') {
+                const ctx = document.getElementById('comparisonChart').getContext('2d');
+                if (comparisonChart) {
+                    comparisonChart.destroy();
+                }
+
+                const labels = ['Earth', 'K2-18b', 'Neptune', 'Jupiter'];
+                const data = labels.map(p => planetData[p.toLowerCase().replace('-', '')][mode]);
+                const colors = labels.map(p => planetData[p.toLowerCase().replace('-', '')].color);
+                
+                comparisonChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: `Relative ${mode.charAt(0).toUpperCase() + mode.slice(1)} (Earth = 1)`,
+                            data: data,
+                            backgroundColor: colors,
+                            borderColor: colors.map(c => c + 'B3'),
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                type: 'logarithmic',
+                                ticks: { color: '#65533C' },
+                                grid: { color: '#DCD3BF' }
+                            },
+                            y: {
+                                ticks: { color: '#433422', font: { weight: 'bold' } },
+                                grid: { display: false }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false,
+                            },
+                            title: {
+                                display: true,
+                                text: `Comparison by Planetary ${mode.charAt(0).toUpperCase() + mode.slice(1)} (Logarithmic Scale)`,
+                                color: '#433422',
+                                font: { size: 16 }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.dataset.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed.x !== null) {
+                                            label += `${context.parsed.x.toFixed(2)}x Earth's ${mode}`;
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function createAtmosphereChart() {
+                const ctx = document.getElementById('atmosphereChart').getContext('2d');
+                const dataKeys = Object.keys(atmosphereData);
+                
+                atmosphereChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: dataKeys,
+                        datasets: [{
+                            label: 'Atmospheric Component',
+                            data: [30, 25, 15, 30],
+                            backgroundColor: dataKeys.map(k => atmosphereData[k].color),
+                            borderColor: '#F0EAD6',
+                            borderWidth: 4,
+                            hoverOffset: 10
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    color: '#433422',
+                                    padding: 15
+                                }
+                            },
+                             title: {
+                                display: true,
+                                text: 'Click a segment for more info',
+                                color: '#65533C',
+                                font: { size: 14 }
+                            }
+                        },
+                        onClick: (event, elements) => {
+                            if (elements.length > 0) {
+                                const index = elements[0].index;
+                                const molecule = dataKeys[index];
+                                const info = atmosphereData[molecule];
+                                document.getElementById('molecule-title').textContent = molecule;
+                                document.getElementById('molecule-desc').textContent = info.desc;
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Initialization logic
+            createComparisonChart();
+            createAtmosphereChart();
+
+            document.getElementById('compare-mass-btn').addEventListener('click', () => createComparisonChart('mass'));
+            document.getElementById('compare-radius-btn').addEventListener('click', () => createComparisonChart('radius'));
+            
+            const navButtons = document.querySelectorAll('.nav-btn');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const targetId = button.dataset.target;
+                    contentSections.forEach(section => {
+                        if (section.id === targetId) {
+                            section.classList.add('active');
+                        } else {
+                            section.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            // Modal functionality
+            const messageModal = document.getElementById('message-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalMessage = document.getElementById('modal-message');
+            const modalCloseBtn = document.getElementById('modal-close');
+
+            const showModal = (title, message) => {
+                modalTitle.textContent = title;
+                modalMessage.textContent = message;
+                messageModal.classList.remove('hidden');
+            };
+
+            modalCloseBtn.addEventListener('click', () => {
+                messageModal.classList.add('hidden');
+            });
+
+            // NEW: Gemini API Logic
+            const chatInput = document.getElementById('ai-chat-input');
+            const chatSubmitBtn = document.getElementById('ai-chat-submit');
+            const chatLoading = document.getElementById('ai-chat-loading');
+            const chatResponseContainer = document.getElementById('ai-chat-response');
+            const chatResponseText = document.getElementById('ai-chat-text');
+
+            chatSubmitBtn.addEventListener('click', async () => {
+                const prompt = chatInput.value.trim();
+                if (!prompt) {
+                    showModal('Input Required', 'Please enter a question to ask the AI.');
+                    return;
+                }
+
+                chatLoading.classList.remove('hidden');
+                chatResponseContainer.classList.add('hidden');
+
+                try {
+                    const apiKey = "";
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+                    
+                    const systemPrompt = "You are a world-class exoplanet scientist. Provide clear, accurate, and concise answers to user queries about astronomy, with a specific focus on K2-18b and exoplanets. Use professional and informative language. Format your response using Markdown, including headings and bullet points where appropriate.";
+
+                    const payload = {
+                        contents: [{ parts: [{ text: prompt }] }],
+                        tools: [{ "google_search": {} }],
+                        systemInstruction: {
+                            parts: [{ text: systemPrompt }]
+                        },
+                    };
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(`API call failed with status: ${response.status}. Message: ${JSON.stringify(errorData)}`);
+                    }
+
+                    const result = await response.json();
+                    const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                    const sources = result.candidates?.[0]?.groundingMetadata?.groundingAttributions;
+
+                    if (text) {
+                        let responseHtml = marked.parse(text);
+                        
+                        if (sources && sources.length > 0) {
+                            responseHtml += '<div class="mt-4 text-xs italic text-[#8E806A]">';
+                            responseHtml += '<p>Sources:</p>';
+                            sources.forEach(source => {
+                                if (source.web && source.web.uri) {
+                                    responseHtml += `<a href="${source.web.uri}" target="_blank" class="block truncate hover:underline">${source.web.title || source.web.uri}</a>`;
+                                }
+                            });
+                            responseHtml += '</div>';
+                        }
+                        
+                        chatResponseText.innerHTML = responseHtml;
+                        chatResponseContainer.classList.remove('hidden');
+                    } else {
+                        showModal('No Response', 'The AI could not generate a response. Please try a different query.');
+                    }
+                } catch (error) {
+                    console.error('Error with Gemini API:', error);
+                    showModal('API Error', 'Failed to connect to the Gemini API. Please check your network and try again.');
+                } finally {
+                    chatLoading.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
